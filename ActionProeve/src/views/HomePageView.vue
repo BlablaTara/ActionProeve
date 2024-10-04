@@ -30,10 +30,10 @@ onMounted(() => {
 <template>
   <header>
     <AdventureHeader />
-    <h1>Activities</h1>
-
   </header>
+
   <div class="wrapper">
+    <br><br><br><br><br><br><br><br><br><br><br><br><h1>Activities</h1>
     <Activity v-for="activity in activities" :key="Activity.activityName" :activity="activity" />
   </div>
 
@@ -73,7 +73,7 @@ nav a:first-of-type {
   }
 
 
-  header .wrapper {
+  /*header .wrapper {
     display: flex;
     place-items: flex-start;
     flex-wrap: wrap;
@@ -87,5 +87,7 @@ nav a:first-of-type {
     padding: 1rem 0;
     margin-top: 1rem;
   }
+
+   */
 }
 </style>
