@@ -1,21 +1,16 @@
 <script setup lang="ts">
 import Activity from '../components/Activity.vue'
-import LogoIcon from '../components/icons/LogoIcon.vue'
-import LoginForm from '../components/LoginForm.vue'
-import AdventureHeader from "@/components/AdventureHeader.vue";
-
+import AdventureHeader from '@/components/AdventureHeader.vue'
 </script>
 
 <template>
-  <header>
+  <!-- <header>
     <AdventureHeader />
-    <!-- <LogoIcon /> -->
-    <!--<LoginForm />-->
-
     <div class="wrapper">
       <Activity activity-name="Go Carts!" />
     </div>
-  </header>
+  </header> -->
+  <p>home</p>
 
   <!--<RouterView /> -->
 </template>
@@ -27,7 +22,6 @@ header {
   max-height: 100vh;
 }
 
-
 nav {
   width: 100%;
   font-size: 12px;
@@ -36,7 +30,7 @@ nav {
 }
 
 nav a.router-link-exact-active {
- /* color: var(--color-text);*/
+  /* color: var(--color-text);*/
 }
 
 nav a.router-link-exact-active:hover {
@@ -60,7 +54,6 @@ nav a:first-of-type {
     width: 100%;
     /*padding-right: calc(var(--section-gap) / 2);*/
   }
-
 
   header .wrapper {
     display: flex;

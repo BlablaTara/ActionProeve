@@ -1,73 +1,122 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import axiosInstance from '@/utils/axiosInstance.ts'
 import BaseInput from './BaseInput.vue'
 import BaseButton from './BaseButton.vue'
+import { useRouter } from 'vue-router'
+import { isAxiosError } from 'axios' // Import this if needed
 
-defineProps<{}>()
+const router = useRouter()
 
-// Vi har ikke brug for gender i denne component men det var for at teste
-// baseInput med type option hehe
-const password = ref(''); //tilføjet denne. Sorry
-const username = ref('')
-const gender = ref('')
+const isFormVisible = ref<boolean>(true)
+const password = ref<string>('')
+const username = ref<string>('')
+const errorMessage = ref<string>('')
+const isLoading = ref<boolean>(false)
 
-function handleSubmit() {
-  console.log('Username:', username.value)
-  console.log('Gender:', gender.value)
+interface LoginResponse {
+  token: string
+}
+
+async function handleSubmit() {
+  isLoading.value = true
+  errorMessage.value = ''
+
+  try {
+    const response = await axiosInstance.post<LoginResponse>('/login', {
+      username: username.value,
+      password: password.value
+    })
+
+    console.log(response)
+
+    if (response.status === 200) {
+      const token = response.data.token
+      localStorage.setItem('authToken', token)
+
+      router.push('/dashboard')
+      isFormVisible.value = false
+    }
+  } catch (error: unknown) {
+    console.error(error)
+    if (isAxiosError(error) && error.response?.status === 401) {
+      errorMessage.value = 'Invalid username or password'
+    } else {
+      errorMessage.value = 'Login failed. Please try again.'
+    }
+  } finally {
+    isLoading.value = false
+  }
 }
 </script>
 
 <template>
-  <form @submit.prevent="handleSubmit">
-    <BaseInput
-      id="username"
-      name="username"
-      labelFor="username"
-      labelText="Username"
-      placeholder="JohnDie"
-      v-model="username"
-      required
-    />
-
-    <BaseInput
-      id="password"
-      name="password"
-      type="password"
-      labelFor="password"
-      labelText="Password"
-      placeholder="pissword"
-      v-model="password"
-      required
-    />
-
-    <BaseInput
-      id="gender"
-      name="gender"
-      labelFor="gender"
-      labelText="Gender"
-      type="select"
-      v-model="gender"
-      :options="[
-        { label: 'Male', value: 'male' },
-        { label: 'Female', value: 'female' },
-        { label: 'Other', value: 'other' }
-      ]"
-      required
-    />
-    <BaseButton type="submit" text="Submit" />
-  </form>
+  <div>
+    <div v-if="isFormVisible" class="overlay">
+      <div class="modal">
+        <form @submit.prevent="handleSubmit">
+          <BaseInput
+            id="username"
+            name="username"
+            labelFor="username"
+            labelText="Username"
+            placeholder="JohnDoe"
+            v-model="username"
+            required
+            aria-required="true"
+          />
+          <BaseInput
+            id="password"
+            name="password"
+            type="password"
+            labelFor="password"
+            labelText="Password"
+            placeholder="password"
+            v-model="password"
+            required
+            aria-required="true"
+          />
+          <BaseButton
+            type="submit"
+            :text="isLoading ? 'Loading...' : 'Submit'"
+            :disabled="isLoading"
+          />
+          <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
+        </form>
+      </div>
+    </div>
+  </div>
 </template>
 
 <style scoped>
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(10px);
+  z-index: 1000;
+}
+
+.modal {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  z-index: 1100;
+  max-width: 400px;
+  width: 100%;
+}
+
 form {
   display: flex;
   flex-direction: column;
-  max-width: 300px;
   margin: 0 auto;
-  padding: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  background-color: #f9f9f9;
 }
 
 button {
@@ -79,7 +128,17 @@ button {
   cursor: pointer;
 }
 
-button:hover {
+button:disabled {
   background-color: #0056b3;
+}
+
+button:hover:not(:disabled) {
+  background-color: #0056b3;
+}
+
+.error-message {
+  color: red;
+  margin-top: 10px;
+  font-size: 0.9rem;
 }
 </style>

@@ -1,7 +1,6 @@
 <script lang="ts">
-import { defineComponent } from 'vue';
-import BaseNavigation from './BaseNavigation.vue';
-
+import { defineComponent } from 'vue'
+import BaseNavigation from './BaseNavigation.vue'
 
 export default defineComponent({
   name: 'AdventureHeader',
@@ -9,32 +8,29 @@ export default defineComponent({
     BaseNavigation
   },
   setup() {
-    const navItems = [
-      {label: 'Activity', link: '/'}
-    ];
+    const navItems = [{ label: 'Activity', link: '/' }]
 
     const dropdownItems = [
-      {label: 'GoCart', value: 'gocart'},
-      {label: 'Sumo Wrestling', value: 'sumo'}
-    ];
+      { label: 'GoCart', value: 'gocart' },
+      { label: 'Sumo Wrestling', value: 'sumo' }
+    ]
 
     //Scroller til det valgte element på siden.
     const handleDropdownSelect = (value: string) => {
-      const element = document.getElementById(value);
+      const element = document.getElementById(value)
       if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
+        element.scrollIntoView({ behavior: 'smooth' })
       }
-    };
+    }
 
     return {
       navItems,
       dropdownItems,
       handleDropdownSelect
-    };
-  },
-});
+    }
+  }
+})
 </script>
-
 
 <template>
   <header class="header">
@@ -42,10 +38,10 @@ export default defineComponent({
       <img src="@/assets/logo.png" alt="Logo" />
     </div>
     <BaseNavigation
-        :navItems="navItems"
-        dropdownLabel="Activities"
-        :dropdownItems="dropdownItems"
-        @dropdown-select="handleDropdownSelect"
+      :navItems="navItems"
+      dropdownLabel="Activities"
+      :dropdownItems="dropdownItems"
+      @dropdown-select="handleDropdownSelect"
     />
   </header>
 </template>
@@ -70,5 +66,4 @@ nav {
   display: flex;
   align-items: center;
 }
-
 </style>
