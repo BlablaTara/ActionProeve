@@ -1,0 +1,26 @@
+[
+  {
+    "activityName": "Go-kart",
+    "durations": ["30 min", "1 time", "1.5 timer"],
+    "information": "Go-kart er en sjov aktivitet for alle aldre! Minimum højde: 120 cm. Alder: 10+.",
+    "image": "https://www.Gocart.com/wildthings.jpg"
+  },
+  {
+    "activityName": "Paintball",
+    "durations": ["1 time", "2 timer"],
+    "information": "Paintball er for minimum 8 personer. Udendørs og indendørs muligheder.",
+    "image": "https://www.Gocart.com/wildthings.jpg"
+  },
+  {
+    "activityName": "Sumo Wrestling",
+    "durations": ["15 min", "30 min", "1 time"],
+    "information": "Sumo Wrestling er en sjov 1-mod-1 aktivitet.",
+    "image": "https://www.Gocart.com/wildthings.jpg"
+  },
+  {
+    "activityName": "Sumo Fodbold",
+    "durations": ["30 min", "1 time"],
+    "information": "Sumo Fodbold er sjovt og aktivt. Minimum 4 personer, max 6 indendørs og 8-20 udendørs.",
+    "image": "https://www.Gocart.com/wildthings.jpg"
+  }
+]
