@@ -1,14 +1,12 @@
 <script setup lang="ts">
 import BaseButton from "@/components/BaseButton.vue";
 
-// Define a type for the event
 interface Event {
   title: string;
   startTime: string;
   endTime: string;
 }
 
-// Define props with appropriate types
 const props = defineProps<{
   day: Date;
   events: Event[];
@@ -32,15 +30,13 @@ function closeDayView() {
           {{ event.title }} ({{ event.startTime }} - {{ event.endTime }})
         </li>
       </ul>
-
-      <BaseButton @click="closeDayView" text="Close" type="button" />
     </div>
   </transition>
 </template>
 
 <style scoped>
 .day-view {
-  width: 300px;
+  width: 50%;
   padding: 20px;
   background: #f0f0f0;
   border-left: 1px solid #ccc;
@@ -48,10 +44,17 @@ function closeDayView() {
   right: 0;
   top: 0;
   height: 100%;
-  z-index: 10; /* Ensure it's above other content */
+  z-index: 10;
 }
 
 .close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
 }
 
 .slide-enter-active, .slide-leave-active {

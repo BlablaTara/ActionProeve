@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import Activity from '../components/Activity.vue'
 import LogoIcon from '../components/icons/LogoIcon.vue'
-import LoginForm from '../components/Loginform.vue'
+import LoginForm from '../components/LoginForm.vue'
 </script>
 
 <template>

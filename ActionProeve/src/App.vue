@@ -7,6 +7,7 @@ import { RouterLink, RouterView } from 'vue-router'
     <div class="wrapper">
       <nav>
         <RouterLink to="/">Login</RouterLink>
+        <RouterLink to="/calender"></RouterLink>
       </nav>
     </div>
   </header>

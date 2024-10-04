@@ -3,19 +3,18 @@ import { ref } from 'vue';
 import MonthCalender from '@/components/MonthCalender.vue';
 import DayCalender from '@/components/DayCalender.vue';
 
-// Define a type for the event
 interface Event {
   title: string;
-  startTime: string; // Change to Date if needed
-  endTime: string; // Change to Date if needed
+  startTime: string;
+  endTime: string;
 }
 
-// Define refs for the selected day and events
+//Define refs for the selected day and events
 const selectedDay = ref<Date | null>(null);
 const selectedDayEvents = ref<Event[]>([]);
 const isDayViewVisible = ref(false);
 
-// Methods to show and close the day view
+//Methods to show and close the day view
 function showDayView(day: Date) {
   selectedDay.value = day;
   selectedDayEvents.value = []; // Fetch events for the selected day if needed
@@ -31,36 +30,39 @@ function closeDayView() {
 
 <template>
   <div class="calender-container">
-    <MonthCalender ref="monthView" @day-clicked="showDayView" />
+    <div :class="{ blurred: isDayViewVisible }">
+      <MonthCalender @day-selected="showDayView" />
+    </div>
     <DayCalender
         v-if="isDayViewVisible"
         :day="selectedDay"
         :events="selectedDayEvents"
-        :is-visible="isDayViewVisible"
+        :isVisible="isDayViewVisible"
         @close-day-view="closeDayView"
-     />
+    />
     <div v-if="isDayViewVisible" class="overlay" @click="closeDayView"></div>
   </div>
 </template>
+
 
 <style scoped>
 .calender-container {
   display: flex;
   flex-direction: row;
-  position: relative; /* Make this container relative */
+  position: relative;
 }
 
 .blurred {
-  filter: blur(5px); /* Apply blur effect when the day view is visible */
+  filter: blur(5px);
 }
 
 .overlay {
-  position: fixed; /* Use fixed to cover the entire viewport */
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5); /* Dark semi-transparent background */
-  z-index: 9; /* Below DayView but above the month view */
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 9;
 }
 </style>

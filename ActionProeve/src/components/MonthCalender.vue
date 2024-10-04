@@ -2,35 +2,43 @@
 import { ref, computed } from 'vue';
 import BaseButton from "@/components/BaseButton.vue";
 
-//Define the emits for emitting the selected day
+//For emitting the selected day
 const emit = defineEmits(['day-selected']);
 
-//Reactive variables for date management
 const currentDate = ref(new Date());
 const currentMonth = ref(currentDate.value.getMonth());
 const currentYear = ref(currentDate.value.getFullYear());
 
-//Computed property for the current month name
+//For the current month name
 const currentMonthName = computed(() => {
   return new Date(currentYear.value, currentMonth.value).toLocaleString('default', { month: 'long' });
 });
 
-// Computed property for the names of the days of the week
 const dayNames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
-//Computed property to get the days in the current month
 const daysInMonth = computed(() => {
   const firstDayOfMonth = new Date(currentYear.value, currentMonth.value, 1);
   const lastDayOfMonth = new Date(currentYear.value, currentMonth.value + 1, 0);
+
+  //Get the index of the first day of the month (0 = Sunday, 6 = Saturday)
+  const firstDayIndex = (firstDayOfMonth.getDay() + 6) % 7; //Shift so Monday is index 0
+
   const days = [];
 
-  for (let i = new Date(firstDayOfMonth.getTime()); i <= lastDayOfMonth; i.setDate(i.getDate() + 1)) {
-    days.push(new Date(i.getTime())); //Push a new date object to avoid mutation
+  //Fills empty days first
+  for (let i = 0; i < firstDayIndex; i++) {
+    days.push(null);
   }
+
+  //Actual days
+  for (let i = 1; i <= lastDayOfMonth.getDate(); i++) {
+    days.push(new Date(currentYear.value, currentMonth.value, i));
+  }
+
   return days;
 });
 
-// Computed property to calculate the correct week numbers in the year
+//To calculate the correct week numbers in the year
 const weekNumbers = computed(() => {
   const weeks = [];
   let currentWeekNumber = getWeekNumber(daysInMonth.value[daysInMonth.value.findIndex(day => day !== null)]);
@@ -42,7 +50,7 @@ const weekNumbers = computed(() => {
   return weeks;
 });
 
-// Helper function to calculate the week number of the year for a given date
+//Calculate the week number of the year for a given date
 function getWeekNumber(date: Date | null): number {
   if (!date) return 0;
   const startDate = new Date(date.getFullYear(), 0, 1);
@@ -50,8 +58,9 @@ function getWeekNumber(date: Date | null): number {
   return Math.ceil((daysDifference + startDate.getDay() + 1) / 7);
 }
 
-//Check if the given day is today
-function isToday(day: Date) {
+function isToday(day: Date | null) {
+  if (!day) return false;
+
   const today = new Date();
   return (
       today.getDate() === day.getDate() &&
@@ -60,7 +69,6 @@ function isToday(day: Date) {
   );
 }
 
-//To previous month
 function prevMonth() {
   currentMonth.value--;
   if (currentMonth.value < 0) {
@@ -69,7 +77,6 @@ function prevMonth() {
   }
 }
 
-//To next month
 function nextMonth() {
   currentMonth.value++;
   if (currentMonth.value > 11) {
@@ -96,15 +103,14 @@ function selectDay(day: Date) {
       <div v-for="(day, index) in dayNames" :key="index" class="calender-day-name">{{ day }}</div>
     </div>
 
-    <!-- Calendar grid -->
     <div class="calender-grid">
       <div v-for="(weekNumber, weekIndex) in weekNumbers" :key="weekIndex" class="week-row">
-        <!-- Week number column -->
         <div class="week-number">{{ weekNumber }}</div>
 
-        <!-- Days in week -->
+        <!-- Days in week (including empty placeholders for filler days) -->
         <div v-for="(day, dayIndex) in daysInMonth.slice(weekIndex * 7, (weekIndex + 1) * 7)" :key="dayIndex" class="calender-day"
-             :class="{'current-day': isToday(day), 'empty-day': day === null}" @click="selectDay(day)">
+             :class="{'current-day': isToday(day), 'empty-day': day === null}" @click="day && selectDay(day)">
+          <!-- Shows day number only if day is not null -->
           {{ day ? day.getDate() : '' }}
         </div>
       </div>
@@ -118,8 +124,8 @@ function selectDay(day: Date) {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 100vw;
-  height: 100vh;
+  width: 90vw;
+  height: 90vh;
   padding: 20px;
   box-sizing: border-box;
 }
@@ -134,17 +140,18 @@ function selectDay(day: Date) {
 .calender-day-names {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 10px;
+  width: 75%;
   text-align: center;
   font-weight: bold;
-  width: 80%;
+  margin-bottom: 20px;
+  margin-left: 50px;
 }
 
 .calender-grid {
   display: grid;
-  grid-template-columns: auto repeat(7, 1fr); /* Week number + days of the week */
-  gap: 10px;
+  grid-template-columns: auto repeat(7, 1fr); /* Week number + 7 days */
   width: 80%;
+  gap: 10px;
 }
 
 .week-row {
@@ -160,7 +167,7 @@ function selectDay(day: Date) {
 }
 
 .calender-day {
-  width: 80%;
+  width: 100%;
   height: 60px;
   display: flex;
   align-items: center;
@@ -170,7 +177,7 @@ function selectDay(day: Date) {
 }
 
 .empty-day {
-  background-color: #f0f0f0;
+  border: none;
 }
 
 .current-day {
@@ -179,7 +186,7 @@ function selectDay(day: Date) {
 
 button {
   background: none;
-  color: #1f2023;
+  color: #f0f0f0;
   border: none;
   border-radius: 4px;
   cursor: pointer;
