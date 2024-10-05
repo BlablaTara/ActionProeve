@@ -1,7 +1,8 @@
 <script setup lang="ts">
 defineProps<{
   text: string
-  type: string
+  //Ændret denne, da den brokkede sig. Sorry
+  type?: 'reset' | 'submit' | 'button'
 }>()
 </script>
 

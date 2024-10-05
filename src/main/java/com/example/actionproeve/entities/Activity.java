@@ -1,11 +1,11 @@
-package com.example.actionproeve.Models;
+package com.example.actionproeve.entities;
 
-public class Activities {
+public class Activity {
 
     private String name = "Go cart";
 
 
-    public Activities() {
+    public Activity() {
 
     }
 

@@ -1,17 +1,18 @@
-import { describe, it, expect } from 'vitest';
+/*import { describe, it, expect } from 'vitest';
 import {mount} from "@vue/test-utils";
-/*import MonthCalender from "@/components/MonthCalender.vue";
+import MonthCalender from "@/components/MonthCalender.vue";
 
-describe('MonthView', () => {
+describe('MonthCalender', () => {
     it('changes the month when prevMonth button is clicked', async () => {
         const wrapper = mount(MonthCalender);
 
         //Check initial month and year values
-        const initialMonth = wrapper.vm.currentMonth.value;
-        const initialYear = wrapper.vm.currentYear.value;
+        const initialMonth = wrapper.vm.currentMonth;
+        const initialYear = wrapper.vm.currentYear;
 
         //Click the prevMonth button
-        await wrapper.find('button[type="button"]:first-of-type').trigger('click'); // Assuming the first button is prevMonth
+        await wrapper.find('button[type="button"]:first-of-type').trigger('click');
+        await wrapper.vm.$nextTick(); // Wait for DOM update
 
         //Check that the month has changed
         const newMonth = wrapper.vm.currentMonth.value;
@@ -29,7 +30,7 @@ describe('MonthView', () => {
     });
 });
 
-describe('MonthView', () => {
+describe('MonthCalender', () => {
     it('changes the month when nextMonth button is clicked', async () => {
         const wrapper = mount(MonthCalender);
 

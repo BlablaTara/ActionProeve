@@ -16,19 +16,7 @@ img {
   height: 100%;
 }
 
-a {
-  color: var(--action-blue);
-}
-
-a:hover {
-  color: #0080bcff;
-}
-
-a:visited {
-  color: #4f37a4ff;
-}
-
-// for responsivitet -- idk om vi skal bruge det hehe så jge lader det bare blive
+/* for responsivitet -- idk om vi skal bruge det hehe så jge lader det bare blive */
 @media (min-width: 1024px) {
   body {
     display: flex;
@@ -36,8 +24,9 @@ a:visited {
   }
 
   #app {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0 2rem;
+    display: flex;
+    width: 100%; /*Laver header fravæg til væg, men nok
+    irriterende med alle andre apps*/
+
   }
 }

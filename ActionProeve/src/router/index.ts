@@ -14,7 +14,7 @@ const router = createRouter({
       path: '/calender',
       name: 'calender',
       component: CalenderView
-    }
+    },
   ]
 })
 

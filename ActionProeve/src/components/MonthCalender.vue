@@ -181,7 +181,7 @@ function selectDay(day: Date) {
 }
 
 .current-day {
-  border: 2px solid black;
+  border: 2px solid #0056b3;
 }
 
 button {

@@ -1,31 +1,27 @@
 <script setup lang="ts">
 import Activity from '../components/Activity.vue'
+import AdventureHeader from '@/components/AdventureHeader.vue'
 import LogoIcon from '../components/icons/LogoIcon.vue'
 import LoginForm from '../components/LoginForm.vue'
 </script>
 
 <template>
-  <header>
-    <LogoIcon />
-    <LoginForm />
-
+  <!-- <header>
+    <AdventureHeader />
     <div class="wrapper">
-      <Activity overskrift="Go Carts!" />
+      <Activity activity-name="Go Carts!" />
     </div>
-  </header>
+  </header> -->
+  <p>home</p>
 
   <!--<RouterView /> -->
 </template>
 
 <style scoped>
 header {
+  width: 100%;
   line-height: 1.5;
   max-height: 100vh;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
 }
 
 nav {
@@ -36,7 +32,7 @@ nav {
 }
 
 nav a.router-link-exact-active {
-  color: var(--color-text);
+  /* color: var(--color-text);*/
 }
 
 nav a.router-link-exact-active:hover {
@@ -46,7 +42,7 @@ nav a.router-link-exact-active:hover {
 nav a {
   display: inline-block;
   padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
+  /*border-left: 1px solid var(--color-border);*/
 }
 
 nav a:first-of-type {
@@ -57,11 +53,8 @@ nav a:first-of-type {
   header {
     display: flex;
     place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
+    width: 100%;
+    /*padding-right: calc(var(--section-gap) / 2);*/
   }
 
   header .wrapper {
