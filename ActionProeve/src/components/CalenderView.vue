@@ -3,6 +3,7 @@ import { ref } from 'vue';
 import MonthCalender from '@/components/MonthCalender.vue';
 import DayCalender from '@/components/DayCalender.vue';
 
+//Placeholder for bookings
 interface Event {
   title: string;
   startTime: string;
