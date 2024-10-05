@@ -9,6 +9,9 @@ import axios from 'axios';
 const startHour = 10; // Adjust based on business hours
 const endHour = 20;
 
+const weekendStartHour = 12;
+const weekendEndHour = 20;
+
 const bookings = ref([]);
 const uniqueActivities = ref([]);
 
@@ -24,6 +27,14 @@ const activityColors = {
   "Bowling": "rgba(173, 216, 230, 0.7)",
   "Laser Tag": "rgba(144, 238, 144, 0.7)",
 };
+
+function isWeekend(day: Date | null): boolean {
+  if (day === null) {
+    return false;  // Return a default value or handle appropriately
+  }
+  const dayOfWeek = day.getDay();
+  return dayOfWeek === 0 || dayOfWeek === 6; // Sunday = 0, Saturday = 6
+}
 
 //Fetch bookings from the backend when the component is mounted
 /*onMounted(async () => {
@@ -93,8 +104,11 @@ function filteredBookings(activity) {
         </div>
         </div>
         <div class="day-grid">
-          <!-- Time labels -->
-          <TimetableColumn :startHour="startHour" :endHour="endHour" />
+          <!-- Timetable Column -->
+          <TimetableColumn
+              :startHour="isWeekend(day) ? weekendStartHour : startHour"
+              :endHour="isWeekend(day) ? weekendEndHour : endHour"
+          />
           <!-- Activity Columns -->
           <div class="activity-columns">
             <ActivityColumn
@@ -163,6 +177,5 @@ function filteredBookings(activity) {
 .activity-columns {
   display: flex;
   flex-grow: 1;
-  margin-right: 20px;
 }
 </style>

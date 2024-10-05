@@ -49,12 +49,12 @@ function closeDayView() {
 <style scoped>
 .calender-container {
   display: flex;
-  justify-content: center; /* Center horizontally */
-  align-items: center; /* Center vertically */
-  height: 100vh; /* Make sure the container takes up the full viewport height */
+  justify-content: center;
+  align-items: center;
+  height: 100%;
   position: relative;
-  width: fit-content; /* Ensures the container takes only the space needed */
-  margin: 0 auto; /* Center the container horizontally */
+  width: fit-content;
+  margin: 0 auto;
 }
 
 .blurred {

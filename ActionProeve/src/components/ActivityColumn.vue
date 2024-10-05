@@ -15,14 +15,22 @@ const props = defineProps<{
   activityColor: string;
 }>();
 
+function isWeekend(date: Date): boolean {
+  const dayOfWeek = date.getDay();
+  return dayOfWeek === 0 || dayOfWeek === 6; // Sunday = 0, Saturday = 6
+}
+
 function getEventStyle(booking: Booking): CSSProperties {
   const startHour = new Date(booking.dateStartTime).getHours();
   const startMinutes = new Date(booking.dateStartTime).getMinutes();
   const endHour = new Date(booking.endTime).getHours();
   const endMinutes = new Date(booking.endTime).getMinutes();
 
-  const openingHour = 10; // or 12 for weekend
-  const totalHours = 10;  // Assuming 10 hours of open time (10:00-20:00)
+  // Check if the booking date is a weekend
+  const isBookingOnWeekend = isWeekend(new Date(booking.dateStartTime));
+  const openingHour = isBookingOnWeekend ? 12 : 10;
+  const closingHour = 20;  // Always closing at 20
+  const totalHours = closingHour - openingHour;
 
   const top = ((startHour - openingHour) * 60 + startMinutes) * 100 / (totalHours * 60);
   const height = ((endHour - startHour) * 60 + (endMinutes - startMinutes)) * 100 / (totalHours * 60);
