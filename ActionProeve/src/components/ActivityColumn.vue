@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { CSSProperties } from 'vue';
 
 interface Booking {
   id: number;
@@ -6,48 +7,42 @@ interface Booking {
   dateStartTime: string;
   endTime: string;
   custName: string;
-  custPhoneNum: string;
-  guestAmount: number;
 }
 
 const props = defineProps<{
   activityName: string;
   bookings: Booking[];
+  activityColor: string;
 }>();
 
-// Method to format the time display
-function formatTime(dateTime: string): string {
-  const date = new Date(dateTime);
-  return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-}
-
-// Function to calculate styles for events (could be passed in from the parent)
-function getEventStyle(booking: Booking) {
-  // Example implementation; adjust this based on your requirements
+function getEventStyle(booking: Booking): CSSProperties {
   const startHour = new Date(booking.dateStartTime).getHours();
   const startMinutes = new Date(booking.dateStartTime).getMinutes();
   const endHour = new Date(booking.endTime).getHours();
   const endMinutes = new Date(booking.endTime).getMinutes();
 
-  // Logic to calculate top and height based on start and end times
-  const openingHour = 10; // Assuming opening hour is 10 AM
-  const closingHour = 20; // Assuming closing hour is 8 PM
-  const totalOpenHours = closingHour - openingHour;
+  const openingHour = 10; // or 12 for weekend
+  const totalHours = 10;  // Assuming 10 hours of open time (10:00-20:00)
 
-  const top = ((startHour - openingHour) * 60 + startMinutes) * 100 / (totalOpenHours * 60);
-  const height = ((endHour - startHour) * 60 + (endMinutes - startMinutes)) * 100 / (totalOpenHours * 60);
+  const top = ((startHour - openingHour) * 60 + startMinutes) * 100 / (totalHours * 60);
+  const height = ((endHour - startHour) * 60 + (endMinutes - startMinutes)) * 100 / (totalHours * 60);
 
   return {
     top: `${top}%`,
     height: `${height}%`,
-    backgroundColor: 'rgba(255, 182, 193, 0.7)', // Default color or based on activity
+    backgroundColor: props.activityColor || 'rgba(173, 216, 230, 0.7)',
+    position: 'absolute',
+    width: '100%',
   };
+}
+
+function formatTime(time: string) {
+  return new Date(time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 }
 </script>
 
 <template>
   <div class="activity-column">
-    <h3>{{ activityName }}</h3>
     <div class="event-grid">
       <div
           v-for="(booking, index) in bookings"
@@ -66,18 +61,18 @@ function getEventStyle(booking: Booking) {
 
 <style scoped>
 .activity-column {
-  flex: 1; /* Allow the column to grow equally */
-  position: relative; /* Allow absolute positioning for bookings */
-  margin-right: 10px; /* Space between columns */
+  flex: 1;
+  position: relative;
+  margin-right: 20px;
 }
 
 .event-grid {
   position: relative;
-  height: 100%; /* Ensure it fills the column height */
+  height: 80%;
 }
 
 .event-block {
-  position: absolute; /* Allow overlap of event blocks */
+  background-color: rgba(255, 182, 193, 0.7);
   border-radius: 5px;
   padding: 5px;
   color: white;
