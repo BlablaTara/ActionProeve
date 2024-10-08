@@ -1,44 +1,42 @@
 <script setup lang="ts">
-import Activity from '../components/Activity.vue'
+import ActivitySection from '../components/ActivitySection.vue'
 import activitiesData from '@/assets/activities1.json'
-import AdventureHeader from "@/components/AdventureHeader.vue";
-import {nextTick, onMounted, ref} from "vue";
-import axios from "axios";
+import AdventureHeader from '@/components/AdventureHeader.vue'
+import { nextTick, onMounted, ref } from 'vue'
+import axios from 'axios'
 import '@/assets/IndexMain.css'
 
 // Definerrer type for Activity
 interface ActivityType {
-  activityName: string;
-  durations: string[];
-  information: string;
-  image: string;
+  activityName: string
+  durations: string[]
+  information: string
+  image: string
 }
 
 const activities = ref<ActivityType[]>([])
 
 onMounted(async () => {
-  activities.value = activitiesData as ActivityType[];
+  activities.value = activitiesData as ActivityType[]
 
-  await nextTick();
+  await nextTick()
 
-  const activityElements = document.querySelectorAll(".activity");
+  const activityElements = document.querySelectorAll('.activity')
 
   const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
+    entries.forEach((entry) => {
       if (entry.isIntersecting) {
-        entry.target.classList.add("slide-in");
+        entry.target.classList.add('slide-in')
       } else {
-        entry.target.classList.remove("slide-in");
+        entry.target.classList.remove('slide-in')
       }
-    });
-  });
+    })
+  })
 
-  activityElements.forEach(activity => {
-    observer.observe(activity);
-  });
-});
-
-
+  activityElements.forEach((activity) => {
+    observer.observe(activity)
+  })
+})
 
 //Henter data fra backend, når komponentet er monteret.
 /*onMounted(() => {
@@ -52,7 +50,6 @@ onMounted(async () => {
 })
 
  */
-
 </script>
 
 <template>
@@ -61,11 +58,13 @@ onMounted(async () => {
   <div id="{{activityName.toLowerCase()}}" class="activities-container">
     <h1>💥 Activities 💥</h1>
     <div class="activities-list">
-      <Activity class="activity"
-                v-for="(activity, index) in activities"
-                :key="index"
-                :activity="activity"
-                :isReversed="index % 2 === 1" :class="{'activity': true, 'slide-in-right': index % 2 === 1}"
+      <ActivitySection
+        class="activity"
+        v-for="(activity, index) in activities"
+        :key="index"
+        :activity="activity"
+        :isReversed="index % 2 === 1"
+        :class="{ activity: true, 'slide-in-right': index % 2 === 1 }"
       />
     </div>
   </div>
@@ -73,7 +72,6 @@ onMounted(async () => {
 </template>
 
 <style scoped>
-
 @media (min-width: 1024px) {
   header {
     display: flex;
@@ -103,6 +101,4 @@ onMounted(async () => {
   opacity: 1;
   transform: translateX(0);
 }
-
-
 </style>
