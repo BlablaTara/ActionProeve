@@ -18,5 +18,6 @@ COPY . .
 # build app for production with minification
 RUN npm run build
 
-EXPOSE 8080
+# Expose port 5173 (for local development) and 8081 for production
+EXPOSE 5173 8081
 CMD [ "http-server", "-p", "8081", "dist" ]

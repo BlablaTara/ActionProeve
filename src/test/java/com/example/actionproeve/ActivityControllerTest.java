@@ -31,7 +31,7 @@ public class ActivityControllerTest {
     private MockMvc mockMvc;
 
     @Mock
-    private ActivityService activitiesService;
+    private ActivityService activityService;
 
     private ObjectMapper objectMapper;
     private static final String JSON_FILE_PATH = "src/main/resources/activities.json";
@@ -58,7 +58,7 @@ public class ActivityControllerTest {
 
         boolean isActivityAdded = activities.stream()
                 .anyMatch(a -> "test".equals(a.getName())
-                        && List.of(10, 20, 30).equals(a.getTimes())
+                        && List.of("10", "20", "30").equals(a.getTimes())
                         && "This is a test sample".equals(a.getDescription()));
 
         assertTrue(isActivityAdded, "Activity should be added");

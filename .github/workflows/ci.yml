@@ -26,7 +26,7 @@ jobs:
           distribution: "temurin"
 
       - name: Run Maven Tests
-        working-directory: . # Adjust to the backend root directory
+        working-directory: ./ # Adjust to the backend root directory
         run: mvn clean test
 
   # Frontend job
