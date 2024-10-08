@@ -26,7 +26,7 @@ jobs:
           distribution: "temurin"
 
       - name: Run Maven Tests
-        working-directory: ./ActionProeve # Adjust to the backend root directory
+        working-directory: . # Adjust to the backend root directory
         run: mvn clean test
 
   # Frontend job
@@ -43,9 +43,9 @@ jobs:
           node-version: "18"
 
       - name: Install Dependencies
-        working-directory: ./ActionProeve/ActionProeve # Adjust to the frontend root directory
+        working-directory: ./ActionProeve # Adjust to the frontend root directory
         run: npm install
 
       - name: Run Frontend Tests
-        working-directory: ./ActionProeve/ActionProeve # Adjust to the frontend root directory
+        working-directory: ./ActionProeve # Adjust to the frontend root directory
         run: npm test
