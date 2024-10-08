@@ -112,7 +112,7 @@
                 </executions>
                 <configuration>
                     <nodeVersion>v20.15.1</nodeVersion> <!--Lav til miljøvariabel-->
-                    <workingDirectory>src/frontend</workingDirectory>
+                    <workingDirectory></workingDirectory>
                 </configuration>
             </plugin>
             <plugin>
@@ -129,7 +129,7 @@
                             <outputDirectory>target/classes/static</outputDirectory>
                             <resources>
                                 <resource>
-                                    <directory>src/frontend/dist</directory>
+                                    <directory>/dist</directory>
                                     <filtering>true</filtering>
                                 </resource>
                             </resources>
