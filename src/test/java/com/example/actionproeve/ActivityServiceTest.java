@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,6 +20,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.*;
 
+@SpringBootTest
 public class ActivityServiceTest {
     private ActivityService activityService; // Remove @Autowired
     private ObjectMapper objectMapper;
@@ -37,9 +39,9 @@ public class ActivityServiceTest {
     @Test
     void testSaveActivity() throws IOException {
         Activity activity = new Activity();
-        activity.setName("test");
-        activity.setTimes(List.of("10", "20", "30"));
-        activity.setDescription("This is a test sample");
+        activity.setActivityName("test");
+        activity.setDurations(List.of("10", "20", "30"));
+        activity.setInformation("This is a test sample");
 
         when(activityService.readActivitiesFromFile()).thenReturn(new ArrayList<>());
 

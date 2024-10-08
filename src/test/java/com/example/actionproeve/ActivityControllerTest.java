@@ -45,9 +45,9 @@ public class ActivityControllerTest {
     @Test
     public void testSubmitActivity() throws JsonProcessingException, Exception {
         Activity activity = new Activity();
-        activity.setName("test");
-        activity.setTimes(List.of("10", "20", "30"));
-        activity.setDescription("This is a test sample");
+        activity.setActivityName("test");
+        activity.setDurations(List.of("10", "20", "30"));
+        activity.setInformation("This is a test sample");
 
         mockMvc.perform(post("/add-activity")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -57,9 +57,9 @@ public class ActivityControllerTest {
         List<Activity> activities = readActivitiesFromJsonFile();
 
         boolean isActivityAdded = activities.stream()
-                .anyMatch(a -> "test".equals(a.getName())
-                        && List.of(10, 20, 30).equals(a.getTimes())
-                        && "This is a test sample".equals(a.getDescription()));
+                .anyMatch(a -> "test".equals(a.getActivityName())
+                        && List.of("10", "20", "30").equals(a.getDurations())
+                        && "This is a test sample".equals(a.getInformation()));
 
         assertTrue(isActivityAdded, "Activity should be added");
     }
