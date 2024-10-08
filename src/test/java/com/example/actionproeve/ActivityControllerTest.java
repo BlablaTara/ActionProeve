@@ -1,6 +1,5 @@
 package com.example.actionproeve;
 
-import com.example.actionproeve.controllers.ActivityController;
 import com.example.actionproeve.models.Activity;
 import com.example.actionproeve.services.ActivityService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -11,9 +10,9 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.io.IOException;
@@ -25,8 +24,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(ActivityController.class) // Specify your controller
-@AutoConfigureMockMvc
+@SpringBootTest
+@AutoConfigureMockMvc // Add this annotation
+@ActiveProfiles("test") // This tells Spring to use the application-test properties
 public class ActivityControllerTest {
 
     @Autowired
