@@ -37,9 +37,9 @@ public class ActivityServiceTest {
     @Test
     void testSaveActivity() throws IOException {
         Activity activity = new Activity();
-        activity.setName("test");
-        activity.setTimes(List.of("10", "20", "30"));
-        activity.setDescription("This is a test sample");
+        activity.setActivityName("test");
+        activity.setDurations(List.of("10", "20", "30"));
+        activity.setInformation("This is a test sample");
 
         when(activityService.readActivitiesFromFile()).thenReturn(new ArrayList<>());
 
