@@ -31,7 +31,7 @@ jobs:
 
       - name: Run Maven Tests
         working-directory: ./ # Adjust to the backend root directory
-        run: mvn clean test -e -X
+        run: mvn clean -Ptest test -e -X
 
   # Frontend job
   frontend-tests:
