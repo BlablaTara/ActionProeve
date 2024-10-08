@@ -6,8 +6,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,9 +26,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
-@AutoConfigureMockMvc // Add this annotation
-@ActiveProfiles("test") // This tells Spring to use the application-test properties
+@SpringBootTest // Ensure the Spring context is loaded
+@AutoConfigureMockMvc // Automatically configure MockMvc
+@ActiveProfiles("test") // Use the test profile
+@ExtendWith(MockitoExtension.class) // Enable Mockito
 public class ActivityControllerTest {
 
     @Autowired
@@ -50,6 +53,10 @@ public class ActivityControllerTest {
         activity.setActivityName("test");
         activity.setDurations(List.of("10", "20", "30"));
         activity.setInformation("This is a test sample");
+
+        // Mock the ActivityService's behavior if necessary
+        // when(activitiesService.saveActivity(any(Activity.class))).thenReturn(activity);
+        // // Uncomment if needed
 
         mockMvc.perform(post("/add-activity")
                 .contentType(MediaType.APPLICATION_JSON)
