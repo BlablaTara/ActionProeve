@@ -7,41 +7,35 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mockito;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
-@SpringBootTest
-@WebMvcTest(ActivityService.class)
-@ActiveProfiles("test") // This tells Spring to use the application-test properties
+@ExtendWith(MockitoExtension.class) // Use MockitoExtension to enable Mockito annotations
 public class ActivityServiceTest {
-    private ActivityService activityService; // Remove @Autowired
-    private ObjectMapper objectMapper;
-    private final String JSON_FILE_PATH = "src/main/resources/activities.json";
+
+    @Mock
+    private ObjectMapper objectMapper; // Mock ObjectMapper
+
+    @InjectMocks
+    private ActivityService activityService; // Inject mocks into ActivityService
 
     @BeforeEach
     void setup() {
-        // Use Mockito to mock the ObjectMapper
-        objectMapper = Mockito.mock(ObjectMapper.class);
-        // Initialize ActivitiesService with the mocked ObjectMapper
-        activityService = new ActivityService(objectMapper);
+        // No additional initialization needed as we're using @InjectMocks
     }
 
-    // need to look up why it needs this- it relates to readValue
-    @SuppressWarnings("unchecked")
     @Test
     void testSaveActivity() throws IOException {
         Activity activity = new Activity();
@@ -49,17 +43,17 @@ public class ActivityServiceTest {
         activity.setDurations(List.of("10", "20", "30"));
         activity.setInformation("This is a test sample");
 
-        when(activityService.readActivitiesFromFile()).thenReturn(new ArrayList<>());
+        // Mock the readValue method to return an empty list
+        when(objectMapper.readValue(any(File.class), any(TypeReference.class)))
+                .thenReturn(new ArrayList<>());
 
-        List<Activity> existingActivities = activityService.readActivitiesFromFile();
-
-        // Mock the readValue method to return existing activities
-        when(objectMapper.readValue(any(File.class), any(TypeReference.class))).thenReturn(existingActivities);
+        // Mock the writeValue method to do nothing
         doNothing().when(objectMapper).writeValue(any(File.class), anyList());
 
+        // Call the method under test
         activityService.saveActivity(activity);
 
+        // Verify that writeValue was called with any File and any List
         verify(objectMapper).writeValue(any(File.class), anyList());
-
-    };
+    }
 }
