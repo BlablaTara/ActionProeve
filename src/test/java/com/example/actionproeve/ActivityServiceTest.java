@@ -19,6 +19,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.*;
 
+@SpringBootTest
 public class ActivityServiceTest {
     private ActivityService activityService; // Remove @Autowired
     private ObjectMapper objectMapper;
