@@ -5,10 +5,12 @@ on:
     branches:
       - main
       - github-actions
+      - githubactions-again
   pull_request:
     branches:
       - main
       - github-actions
+      - githubactions-again
 
 jobs:
   # Backend job
