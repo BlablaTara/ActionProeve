@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -26,19 +27,18 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest // Ensure the Spring context is loaded
-@AutoConfigureMockMvc // Automatically configure MockMvc
-@ActiveProfiles("test") // Use the test profile
 @ExtendWith(MockitoExtension.class) // Enable Mockito
 public class ActivityControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
-    @Mock
+    @InjectMocks
     private ActivityService activitiesService;
 
+    @Mock
     private ObjectMapper objectMapper;
+
     private static final String JSON_FILE_PATH = "src/main/resources/activities.json";
 
     @BeforeEach
