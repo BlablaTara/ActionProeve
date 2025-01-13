@@ -16,16 +16,18 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v3 # Eksempel
 
       - name: Set up JDK 21
-        uses: actions/setup-java@v3
+        # Denne version er hash-pinned efter GitHub's anbefalinger:
+        # Link til githubs sikkerheds protokol: https://docs.github.com/en/actions/security-for-github- actions/security-guides/security-hardening-for-github- actions
+        uses: actions/setup-java@7a6d8a8234af8eb26422e24e3006232cccaa061b # v. 4.6.0. 2024-18-dec.
         with:
           java-version: "21"
           distribution: "temurin"
 
       - name: Cache Maven dependencies
-        uses: actions/cache@v4
+        uses: actions/cache@main # Eksempel
         with:
           path: ~/.m2/repository
           key: maven-${{ hashFiles('**/pom.xml') }}
